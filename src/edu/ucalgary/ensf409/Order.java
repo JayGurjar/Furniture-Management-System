@@ -18,6 +18,7 @@ public class Order {
     // private Filing [] filings;
     private String [] idOrderedItems;
 	//Manchester united
+	//Barcelona
 
     public static void main(String[] args) throws IOException {
         Order o1 = new Order();
