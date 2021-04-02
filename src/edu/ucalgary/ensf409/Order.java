@@ -11,19 +11,21 @@ public class Order {
     private Connection dbConnect;
     private ResultSet results;
 
-    // private FacultyInfo facultyInfo;
-    // private Desk [] desks;
-    // private Chair [] chairs;
-    // private Lamp [] lamps;
-    // private Filing [] filings;
+    private FacultyInfo facultyInfo;
+    private Desk [] desks;
+    private Chair [] chairs;
+    private Lamp [] lamps;
+    private Filing [] filings;
     private String [] idOrderedItems;
 
     public static void main(String[] args) throws IOException {
         Order o1 = new Order();
         o1.readOrder();
         o1.createConnection();
-        o1.writeOrder();
-        o1.selectChair();
+        //o1.writeOrder();
+        o1.generalSelect();
+        // o1.selectChair();
+        // o1.selectDesk();
         o1.close();
     }
 
@@ -54,9 +56,41 @@ public class Order {
         this.items = items;
     }
 
+    public void CalculateFurnitureCost() {
+        // furnitureCategory = chair
+        // type = mesh
+        // get all mesh chairs (select * by type and category) (put into a array of relavant type)
+        // make combination out of exisiting furniture  (check combinations)
+        // find the lowest cost and compare to new chair (comapre function)
+        // if lowest cost <= new chair 
+        // else cant find combination go to manufacture
+        // then get the lowest cost chair
+        // updateTheDataBase(method updates database)
+    }
+
+    public void generalSelect() {
+        StringBuffer select = new StringBuffer();
+        try {
+            Statement myStmt = dbConnect.createStatement();
+            results = myStmt.executeQuery("SELECT * FROM " + getFurnitureCategory() +  " WHERE Type ='" + getType() + "'") ;
+
+            while (results.next()){
+                // System.out.println("Print results: " + results.getString("Type") + ", " + results.getString("Seat"));
+                // select.append(results.getString("name") + ", " + results.getString("owner"));
+                // select.append('\n');
+            }
+
+            myStmt.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        // return select.toString();
+    }
+
+
     public void readOrder() throws IOException{
         BufferedReader reader = new BufferedReader(
-            new InputStreamReader(System.in));
+                new InputStreamReader(System.in));
         System.out.println("What would you like to Order?");
         String readLine = reader.readLine();
         String [] lineArray = readLine.stripLeading().stripTrailing().split(" ");   // ADD error checking for invalid inputs
@@ -69,19 +103,18 @@ public class Order {
 
     public void writeOrder() throws IOException {
         try {
-            FileWriter writer = new FileWriter("output.txt");  
+            FileWriter writer = new FileWriter("output.txt");
             BufferedWriter buffer = new BufferedWriter(writer);
-            String write =  "Furniture Order Form" + "\n \n" + "Faculty Name: " 
-                            + "\n" + "Contact: " + "\n" + "Date: " + "\n \n" 
-                            + "Original Request: " + type + " " + furnitureCategory + ", " + Integer.toString(items)
-                            + "\n \n" + "Items Ordered: " + "\n";  //make function orderToString to get Orders and converToString
-            buffer.write(write);  
-            buffer.close();  
+            String write =  "Furniture Order Form" + "\n \n" + "Faculty Name: "
+                    + "\n" + "Contact: " + "\n" + "Date: " + "\n \n"
+                    + "Original Request: " + type + " " + furnitureCategory + ", " + Integer.toString(items)
+                    + "\n \n" + "Items Ordered: " + "\n";  //make function orderToString to get Orders and convertToString
+            buffer.write(write);
+            buffer.close();
 
         } catch(Exception e) {
             System.err.println("Failed to write to file");
         }
-
     }
 
     /* Data Base methods */
@@ -105,23 +138,61 @@ public class Order {
     public String selectChair(){
 
         StringBuffer typeAndSeat = new StringBuffer();
-        
-        try {                    
+
+        try {
             Statement myStmt = dbConnect.createStatement();
             results = myStmt.executeQuery("SELECT * FROM CHAIR");
-            
+
             while (results.next()){
                 // System.out.println("Print results: " + results.getString("Type") + ", " + results.getString("Seat"));
                 // catsAndOwners.append(results.getString("name") + ", " + results.getString("owner"));
                 // catsAndOwners.append('\n');
             }
-            
+
             myStmt.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return typeAndSeat.toString();
-    }    
-    
-    
+    }
+
+    public String selectDesk(){
+
+        StringBuffer typeAndSeat = new StringBuffer();
+
+        try {
+            Statement myStmt = dbConnect.createStatement();
+            results = myStmt.executeQuery("SELECT * FROM DESK");
+
+            while (results.next()){
+                 System.out.println("Print results: " + results.getString("Type") + ", " + results.getString("ID"));
+                // catsAndOwners.append(results.getString("name") + ", " + results.getString("owner"));
+                // catsAndOwners.append('\n');
+            }
+
+            myStmt.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return typeAndSeat.toString();
+    }
+
+    /* Commented out for now so we don't accidentally mess with the database
+    // After extracting the desk we must delete that desk since it is used in our order
+    public void deleteDesk(String ManuID){
+        try {
+            String query = "DELETE FROM DESK WHERE ManuID = ?";
+            PreparedStatement myStmt = dbConnect.prepareStatement(query);
+            myStmt.setString(1, ManuID);
+            myStmt.executeUpdate();
+            myStmt.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    */
+
+
 }
+
