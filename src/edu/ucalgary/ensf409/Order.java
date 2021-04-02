@@ -19,6 +19,7 @@ public class Order {
     // hi
     private String [] idOrderedItems;
 
+
     public static void main(String[] args) throws IOException {
         Order o1 = new Order();
         o1.readOrder();
@@ -27,6 +28,7 @@ public class Order {
         o1.selectChair();
         o1.close();
     }
+
 
     public Order() {
     }
