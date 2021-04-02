@@ -17,8 +17,7 @@ public class Order {
     // private Lamp [] lamps;
     // private Filing [] filings;
     private String [] idOrderedItems;
-	//Manchester united
-	//Barcelona
+
 
     public static void main(String[] args) throws IOException {
         Order o1 = new Order();
@@ -28,7 +27,7 @@ public class Order {
         o1.selectChair();
         o1.close();
     }
-	//Juventus
+
 
     public Order() {
     }
