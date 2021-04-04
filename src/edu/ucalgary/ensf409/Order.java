@@ -2,6 +2,7 @@ package edu.ucalgary.ensf409;
 
 import java.io.*;
 import java.sql.*;
+import java.util.*;
 
 public class Order {
     private String[] orderId;
@@ -25,6 +26,7 @@ public class Order {
         //o1.writeOrder();
         o1.generalSelect();
         // o1.selectChair();
+
         // o1.selectDesk();
         o1.close();
     }
@@ -56,6 +58,9 @@ public class Order {
         this.items = items;
     }
 
+
+
+
     public void CalculateFurnitureCost() {
         // furnitureCategory = chair
         // type = mesh
@@ -67,24 +72,57 @@ public class Order {
         // then get the lowest cost chair
         // updateTheDataBase(method updates database)
     }
-
+    // For the furniture category and type specified, poplate the arrays with thecorresponding
     public void generalSelect() {
-        StringBuffer select = new StringBuffer();
         try {
             Statement myStmt = dbConnect.createStatement();
-            results = myStmt.executeQuery("SELECT * FROM " + getFurnitureCategory() +  " WHERE Type ='" + getType() + "'") ;
-
+            results = myStmt.executeQuery("SELECT * FROM " + getFurnitureCategory() +  " WHERE Type ='" + getType() + "'" + ";") ;
+            /* Counts the number of Elements needed to make the array */
+            int i = 0;
             while (results.next()){
-                // System.out.println("Print results: " + results.getString("Type") + ", " + results.getString("Seat"));
-                // select.append(results.getString("name") + ", " + results.getString("owner"));
-                // select.append('\n');
+                i++;
             }
-
+            if(getFurnitureCategory().toLowerCase().equals("chair")) {
+                chairs = new Chair[i];
+            } else if(getFurnitureCategory().toLowerCase().equals("desk")) {
+                desks = new Desk[i];
+            } else if(getFurnitureCategory().toLowerCase().equals("lamp")) {
+                lamps = new Lamp[i];
+            } else if(getFurnitureCategory().toLowerCase().equals("filing")) {
+                filings = new Filing[i];
+            } 
+        
+            results = myStmt.executeQuery("SELECT * FROM " + getFurnitureCategory() +  " WHERE Type ='" + getType() + "'" + ";") ;
+            
+            /* Populates the appropriate array with the values from database */
+            int j = 0;
+            while (results.next()){
+            if(getFurnitureCategory().toLowerCase().equals("chair")) {
+                    chairs[j] = new Chair(results.getString("ID"), results.getString("Type"), results.getString("ManuID"), 
+                    results.getInt("Price"), results.getString("Legs").charAt(0), results.getString("Arms").charAt(0), 
+                    results.getString("Seat").charAt(0), results.getString("Cushion").charAt(0));              
+            }
+            
+            else if(getFurnitureCategory().toLowerCase().equals("desk")) {
+                desks[j] = new Desk(results.getString("ID"), results.getString("Type"), results.getString("ManuID"), 
+                results.getInt("Price"), results.getString("Top").charAt(0), results.getString("Drawer").charAt(0),
+                results.getString("Legs").charAt(0));              
+            }
+            else if(getFurnitureCategory().toLowerCase().equals("lamp")) {
+                lamps[j] = new Lamp(results.getString("ID"), results.getString("Type"), results.getString("ManuID"), 
+                results.getInt("Price"), results.getString("Base").charAt(0), results.getString("Bulb").charAt(0));              
+            }
+            else if(getFurnitureCategory().toLowerCase().equals("filing")) {
+                filings[j] = new Filing(results.getString("ID"), results.getString("Type"), results.getString("ManuID"), 
+                results.getInt("Price"), results.getString("Rails").charAt(0), results.getString("Drawers").charAt(0), 
+                results.getString("Cabinet").charAt(0));         
+            }                 
+            j++;
+        }
             myStmt.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        // return select.toString();
     }
 
 
