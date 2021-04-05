@@ -25,9 +25,6 @@ public class Order {
         o1.createConnection();
         //o1.writeOrder();
         o1.generalSelect();
-        // o1.selectChair();
-
-        // o1.selectDesk();
         o1.close();
     }
 
@@ -60,7 +57,7 @@ public class Order {
 
 
 
-
+    /* To be completed */
     public void CalculateFurnitureCost() {
         // furnitureCategory = chair
         // type = mesh
@@ -72,6 +69,7 @@ public class Order {
         // then get the lowest cost chair
         // updateTheDataBase(method updates database)
     }
+
     // For the furniture category and type specified, poplate the arrays with thecorresponding
     public void generalSelect() {
         try {
@@ -125,7 +123,7 @@ public class Order {
         }
     }
 
-
+    /* Reads the two argument user input from terminal */
     public void readOrder() throws IOException{
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(System.in));
@@ -139,6 +137,7 @@ public class Order {
         items = Integer.parseInt(readSecondLine);
     }
 
+    /* Writes the Order to output file */
     public void writeOrder() throws IOException {
         try {
             FileWriter writer = new FileWriter("output.txt");
@@ -204,8 +203,6 @@ public class Order {
 
             while (results.next()){
                  System.out.println("Print results: " + results.getString("Type") + ", " + results.getString("ID"));
-                // catsAndOwners.append(results.getString("name") + ", " + results.getString("owner"));
-                // catsAndOwners.append('\n');
             }
 
             myStmt.close();
