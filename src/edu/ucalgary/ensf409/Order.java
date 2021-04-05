@@ -59,7 +59,7 @@ public class Order {
 
 
 
-
+    /* Calcuate Furniture the furniture*/
     public void CalculateFurnitureCost() {
         // furnitureCategory = chair
         // type = mesh
