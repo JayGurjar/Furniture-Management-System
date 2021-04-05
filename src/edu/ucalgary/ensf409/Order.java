@@ -124,7 +124,6 @@ public class Order {
             ex.printStackTrace();
         }
         return typeAndSeat.toString();
-    }    
     
-    
+    }
 }
