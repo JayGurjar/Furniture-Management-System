@@ -8,9 +8,7 @@ class Lamp extends OfficeFurniture {
 
     public Lamp() {
     }
-    public Lamp(char base) {
-        setBase(base);
-    }
+
     public Lamp(String id, String type, String manuId, int price, char base, char bulb) {
         super.setId(id);
         super.setType(type);
