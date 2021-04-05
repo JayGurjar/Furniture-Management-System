@@ -12,12 +12,28 @@ public class Order {
     private Connection dbConnect;
     private ResultSet results;
 
+<<<<<<< HEAD
     private FacultyInfo facultyInfo;
     private Desk [] desks;
     private Chair [] chairs;
     private Lamp [] lamps;
     private Filing [] filings;
+||||||| 69816c4
+    // private FacultyInfo facultyInfo;
+    // private Desk [] desks;
+    // private Chair [] chairs;
+    // private Lamp [] lamps;
+    // private Filing [] filings;
+=======
+    // private FacultyInfo facultyInfo;
+    // private Desk [] desks;
+    // private Chair [] chairs;
+    // private Lamp [] lamps;
+    // private Filing [] filings;
+    // hi
+>>>>>>> origin/main
     private String [] idOrderedItems;
+
 
     public static void main(String[] args) throws IOException {
         Order o1 = new Order();
@@ -27,6 +43,7 @@ public class Order {
         o1.generalSelect();
         o1.close();
     }
+
 
     public Order() {
     }
@@ -191,6 +208,7 @@ public class Order {
             ex.printStackTrace();
         }
         return typeAndSeat.toString();
+<<<<<<< HEAD
     }
 
     public String selectDesk(){
@@ -231,3 +249,13 @@ public class Order {
 
 }
 
+||||||| 69816c4
+    }    
+    
+    
+}
+=======
+    
+    }
+}
+>>>>>>> origin/main
